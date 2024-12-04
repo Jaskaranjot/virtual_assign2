@@ -1,0 +1,40 @@
+name: CI/CD for Node.js App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Log in to Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.jaskaranjot1997 }}
+          password: ${{ secrets.Jaskaran@11 }}
+
+      # Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: jaskaranjot1997/virtual_assign2:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - name: Deploy to Server
+        run: |
+          echo "Deploying container to production..."
+          # Add deployment commands (e.g., SSH and Docker commands)
